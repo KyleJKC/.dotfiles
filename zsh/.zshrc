@@ -18,12 +18,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# alias
+# Alias
 alias c='clear'
-alias ls='ls --color=auto'
-alias ll='ls -lh'
+alias ls='exa --group-directories-first --icons' # Make sure you installed exa
+alias ll='ls -lh --git'
 alias la='ll -a'
-alias lr='la -R'
+alias tree='ls -T'
 alias vi='vim'
 alias vim='/opt/homebrew/bin/vim'
 alias grep="grep --color=auto"
