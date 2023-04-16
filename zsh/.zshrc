@@ -18,6 +18,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Options
+setopt auto_cd
+
 # Alias
 alias c='clear'
 alias ls='exa --group-directories-first --icons' # Make sure you installed exa
@@ -31,6 +34,7 @@ alias s='fastfetch'
 alias x='extract'
 alias mp='mkdir -p'
 alias ra='ranger'
+alias rm='rm -i'
 alias reload='source ~/.zshrc'
 alias lg='lazygit'
 
