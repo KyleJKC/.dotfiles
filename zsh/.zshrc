@@ -23,10 +23,11 @@ setopt auto_cd
 
 # Alias
 alias c='clear'
-alias ls='exa --group-directories-first --icons' # Make sure you installed exa
-alias ll='ls -lh --git'
+alias ls='lsd --group-directories-first' # Make sure you installed lsd
+alias l='ls -a'
+alias ll='ls -lh'
 alias la='ll -a'
-alias tree='ls -T'
+alias tree='ls --tree'
 alias vi='vim'
 alias vim='/opt/homebrew/bin/vim'
 alias grep="grep --color=auto"
@@ -53,11 +54,11 @@ autoload -Uz _zinit
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
-# zinit light-mode for \
-#     zdharma-continuum/zinit-annex-as-monitor \
-#     zdharma-continuum/zinit-annex-bin-gem-node \
-#     zdharma-continuum/zinit-annex-patch-dl \
-#     zdharma-continuum/zinit-annex-rust
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
 
 ### End of Zinit's installer chunk
 
@@ -70,7 +71,7 @@ zinit for \
       OMZL::{'history','completion','git','grep','key-bindings'}.zsh
 
 zinit wait lucid for \
-      OMZP::{'colored-man-pages','extract','fzf','git','sudo','autojump'}
+      OMZP::{'colored-man-pages','extract','fzf','git','sudo'}
 
 # Plugins
 zinit wait lucid for \
@@ -83,9 +84,6 @@ zinit wait lucid for \
 
 zinit ice depth=1 wait"2" lucid
 zinit light hlissner/zsh-autopair
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -102,5 +100,12 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-
+# FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Zoxide
+eval "$(zoxide init zsh)"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
