@@ -38,6 +38,10 @@ alias ra='joshuto'
 alias rm='rm -i'
 alias reload='source ~/.zshrc'
 alias lg='lazygit'
+alias proxy='export all_proxy=socks5://127.0.0.1:1080'
+alias unproxy='unset all_proxy'
+alias ss='sslocal -c /etc/shadowsocks/config.json -d'
+alias killss='killall sslocal'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
