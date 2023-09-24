@@ -6,7 +6,6 @@
 # ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝
 # By KyleJKC
 
-
 # Module
 # module_path+=( "/Users/kylejin/.local/share/zinit/module/Src" )
 # zmodload zdharma_continuum/zinit
