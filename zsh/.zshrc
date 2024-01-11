@@ -22,7 +22,7 @@ setopt auto_cd
 
 # Alias
 alias c='clear'
-alias ls='lsd --group-directories-first' # Make sure you installed lsd
+alias ls='eza --icons --group-directories-first' # Make sure you installed lsd
 alias l='ls -a'
 alias ll='ls -lh'
 alias la='ll -a'
@@ -109,9 +109,6 @@ zinit wait lucid for \
       atload"!_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 # pnpm
 export PNPM_HOME="/Users/kylejin/Library/pnpm"
 case ":$PATH:" in
@@ -125,3 +122,6 @@ esac
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
