@@ -22,7 +22,7 @@ setopt auto_cd
 
 # Alias
 alias c='clear'
-alias ls='eza --icons --group-directories-first' # Make sure you installed lsd
+alias ls='eza --icons --group-directories-first' # Make sure you installed eza
 alias l='ls -a'
 alias ll='ls -lh'
 alias la='ll -a'
@@ -90,14 +90,6 @@ source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
-
 ### End of Zinit's installer chunk
 
 # Theme
@@ -105,23 +97,23 @@ zinit ice depth=1
 zinit light romkatv/powerlevel10k
 
 # OMZ Libraries & Plugins
-zinit for \
-      OMZL::{'history','completion','git','grep','key-bindings'}.zsh
-
 zinit wait lucid for \
+      OMZL::{'history','completion','git','grep','key-bindings'}.zsh \
       OMZP::{'colored-man-pages','extract','fzf','git','sudo'}
 
 # Plugins
-zinit ice depth=1 wait"2" lucid
-zinit light hlissner/zsh-autopair
+zinit wait lucid light-mode for \
+      hlissner/zsh-autopair \
+  atinit"zicompinit; zicdreplay" \
+      zdharma-continuum/fast-syntax-highlighting \
+  atload"_zsh_autosuggest_start" \
+      zsh-users/zsh-autosuggestions \
+  blockf atpull'zinit creinstall -q .' \
+      zsh-users/zsh-completions
 
-zinit wait lucid for \
-      atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-        zdharma-continuum/fast-syntax-highlighting \
-      blockf \
-        zsh-users/zsh-completions \
-      atload"!_zsh_autosuggest_start" \
-        zsh-users/zsh-autosuggestions
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.dotfiles/zsh/.p10k.zsh.
+[[ ! -f ~/.dotfiles/zsh/.p10k.zsh ]] || source ~/.dotfiles/zsh/.p10k.zsh
