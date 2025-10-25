@@ -11,22 +11,21 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- Basic editor settings (make it feel modern)
-vim.opt.number = true             -- show line numbers
-vim.opt.relativenumber = true     -- relative line numbers
-vim.opt.mouse = "a"               -- enable mouse
-vim.opt.clipboard = "unnamedplus" -- use system clipboard
-vim.opt.breakindent = true        -- wrapped line indent
-vim.opt.tabstop = 2               -- number of spaces for a tab
-vim.opt.shiftwidth = 2            -- spaces for indentation
-vim.opt.expandtab = true          -- use spaces instead of tabs
-vim.opt.smartindent = true        -- smarter auto indent
-vim.opt.ignorecase = true         -- case-insensitive search...
-vim.opt.smartcase = true          -- ...unless capital letters
-vim.opt.termguicolors = true      -- true color support
-vim.opt.signcolumn = "yes"        -- always show sign column
-vim.opt.cursorline = true         -- highlight current line
-vim.opt.wrap = false              -- no soft wrapping
-vim.opt.scrolloff = 8             -- minimal lines around cursor
+vim.opt.number = true
+vim.opt.mouse = "a"
+vim.opt.clipboard = "unnamedplus"
+vim.opt.breakindent = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.opt.smartindent = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.termguicolors = true
+vim.opt.signcolumn = "yes"
+vim.opt.cursorline = true
+vim.opt.wrap = false
+vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
 
 -- Setup lazy.nvim and your plugins
@@ -52,7 +51,7 @@ require("lazy").setup({
       event = "InsertEnter",
       config = function()
         require("nvim-autopairs").setup({
-          check_ts = true, -- integrates with treesitter if installed later
+          check_ts = true,
         })
       end,
     },
@@ -70,6 +69,52 @@ require("lazy").setup({
             icons_enabled = true,
           },
         })
+      end,
+    },
+
+    -- 🌳 Treesitter: syntax highlighting and more
+    {
+      "nvim-treesitter/nvim-treesitter",
+      build = ":TSUpdate",
+      event = { "BufReadPost", "BufNewFile" },
+      config = function()
+        require("nvim-treesitter.configs").setup({
+          ensure_installed = { "lua", "vim", "bash", "python", "javascript", "html", "css" }, -- add what you use
+          highlight = { enable = true },
+          indent = { enable = true },
+          autotag = { enable = true }, -- works with html, jsx, etc. if installed later
+        })
+      end,
+    },
+
+    -- ⚡ Noice.nvim: modern UI for messages, cmdline, and more
+    {
+      "folke/noice.nvim",
+      event = "VeryLazy",
+      dependencies = {
+        "MunifTanjim/nui.nvim",
+        "rcarriga/nvim-notify", -- optional, better notifications
+      },
+      config = function()
+        require("noice").setup({
+          lsp = {
+            progress = { enabled = true },
+            override = {
+              ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+              ["vim.lsp.util.stylize_markdown"] = true,
+              ["cmp.entry.get_documentation"] = true,
+            },
+          },
+          presets = {
+            bottom_search = false,
+            command_palette = true,
+            long_message_to_split = true,
+            inc_rename = false,
+            lsp_doc_border = true,
+          },
+        })
+        -- optional: use noice’s notifications
+        vim.notify = require("notify")
       end,
     },
   },
