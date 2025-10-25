@@ -1,0 +1,30 @@
+# Starship: Default behavior & symbols, Rose Pine Moon colors
+# Save as: ~/.config/starship.toml
+
+# Use our palette everywhere
+palette = "rose-pine-moon"
+
+# ── Palette ────────────────────────────────────────────────────────────────
+# Map ANSI color names used by Starship's defaults to Rosé Pine Moon hexes.
+# This way you don't have to override each module—default styles like
+# "bold green", "red", "yellow", etc. automatically use these colors.
+[palettes.rose-pine-moon]
+# Core
+black  = "#232136"  # base
+white  = "#e0def4"  # text
+red    = "#eb6f92"  # love
+green  = "#3e8fb0"  # pine (teal-leaning green)
+yellow = "#f6c177"  # gold
+blue   = "#9ccfd8"  # foam
+magenta= "#c4a7e7"  # iris
+cyan   = "#ea9a97"  # rose
+
+# ── Optional niceties (still identical to defaults in behavior) ────────────
+# These lines simply restate default styles so they clearly pick up the palette.
+# You can omit this whole block; it's here for clarity.
+
+[character]
+# default symbols & format; just reassert default colors that now point to the palette
+success_symbol = "[λ](bold blue)"
+error_symbol   = "[λ](bold red)"
+vimcmd_symbol  = "[λ](bold blue)"
