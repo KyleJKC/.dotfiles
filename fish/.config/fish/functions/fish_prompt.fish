@@ -36,11 +36,16 @@ if ! set -q lucid_git_icon
     set -g lucid_git_icon ""
 end
 
+# Skip newline on first prompt
+set -g lucid_skip_newline 1
+
 # State used for memoization and async calls.
 set -g __lucid_cmd_id 0
 set -g __lucid_git_state_cmd_id -1
 set -g __lucid_git_static ""
 set -g __lucid_dirty ""
+set -g __lucid_last_prompt_cmd_id -1
+set -g __lucid_should_skip_newline 0
 
 # Increment a counter each time a prompt is about to be displayed.
 # Enables us to distingish between redraw requests and new prompts.
@@ -207,12 +212,37 @@ end
 function fish_mode_prompt
 end
 
+# Wrapper functions to skip newline after clearing screen
+function clear --description 'Clear the screen and skip newline on next prompt'
+    set -g lucid_skip_newline 1
+    command clear $argv
+end
+
+function reset --description 'Reset the terminal and skip newline on next prompt'
+    set -g lucid_skip_newline 1
+    command reset $argv
+end
+
 function fish_prompt
     set -l last_pipestatus $pipestatus
     # OPTIMIZED: Use prompt_pwd which is faster and handles ~ replacement
     set -l cwd (prompt_pwd)
 
-    if test -z "$lucid_skip_newline"
+    # On a new prompt (not a repaint), decide whether to skip the newline
+    if test $__lucid_cmd_id -ne $__lucid_last_prompt_cmd_id
+        set -g __lucid_last_prompt_cmd_id $__lucid_cmd_id
+
+        # Store the decision: should we skip newline for this prompt?
+        if set -q lucid_skip_newline
+            set -g __lucid_should_skip_newline 1
+            set -e lucid_skip_newline
+        else
+            set -g __lucid_should_skip_newline 0
+        end
+    end
+
+    # Apply the decision on every render (including repaints)
+    if test $__lucid_should_skip_newline -eq 0
         echo ''
     end
 

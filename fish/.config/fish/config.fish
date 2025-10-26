@@ -41,12 +41,6 @@ if test -f /opt/miniconda3/bin/conda
         eval /opt/miniconda3/bin/conda "shell.fish" "hook" $argv | source
         conda $argv  # Call the real conda with original arguments
     end
-else
-    if test -f "/opt/miniconda3/etc/fish/conf.d/conda.fish"
-        . "/opt/miniconda3/etc/fish/conf.d/conda.fish"
-    else
-        set -gx PATH "/opt/miniconda3/bin" $PATH
-    end
 end
 # <<< conda initialize <<<
 
@@ -61,7 +55,25 @@ if test -x /opt/homebrew/bin/brew
 end
 
 set -gx BUN_INSTALL $HOME/.bun
-fish_add_path -g $BUN_INSTALL/bin
+set -g PATH $BUN_INSTALL/bin $PATH
 
 # starship init fish | source
-zoxide init fish | source
+
+# OPTIMIZED: Lazy-load zoxide - initialize on first use
+if type -q zoxide
+    # Create wrapper functions that initialize zoxide on first use
+    function __zoxide_lazy_init
+        functions --erase __zoxide_lazy_init z zi
+        zoxide init fish | source
+    end
+
+    function z
+        __zoxide_lazy_init
+        z $argv
+    end
+
+    function zi
+        __zoxide_lazy_init
+        zi $argv
+    end
+end
