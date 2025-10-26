@@ -28,11 +28,11 @@ set -g fish_pager_color_progress ea9a97
 set -g fish_pager_color_background --background=232136
 set -g fish_pager_color_prefix e0def4 --underline --bold
 set -g fish_pager_color_completion 908caa
-set -g fish_pager_color_description f6c177 --italic
+set -g fish_pager_color_description f6c177 --bold
 set -g fish_pager_color_selected_background --background=393552
 set -g fish_pager_color_selected_prefix e0def4 --underline --bold
 set -g fish_pager_color_selected_completion e0def4
-set -g fish_pager_color_selected_description f6c177 --italic
+set -g fish_pager_color_selected_description f6c177 --bold
 
 # Custom color variables (for use in prompts or scripts)
 set -g fish_color_subtle 908caa

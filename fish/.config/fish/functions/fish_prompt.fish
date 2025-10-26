@@ -36,13 +36,17 @@ if ! set -q lucid_git_icon
     set -g lucid_git_icon ""
 end
 
-if ! set -q lucid_ssh_icon
-    set -g lucid_ssh_icon "🌐"
+# OS-specific icons (you can customize these)
+if ! set -q lucid_os_icons
+    set -g lucid_os_icons
 end
 
 if ! set -q lucid_ssh_color
     set -g lucid_ssh_color yellow
 end
+
+# Cache for OS detection to avoid repeated uname calls
+set -g __lucid_os_icon ""
 
 # Skip newline on first prompt
 set -g lucid_skip_newline 1
@@ -59,6 +63,121 @@ set -g __lucid_should_skip_newline 0
 # Enables us to distingish between redraw requests and new prompts.
 function __lucid_increment_cmd_id --on-event fish_prompt
     set __lucid_cmd_id (math $__lucid_cmd_id + 1)
+end
+
+# Detect OS and return appropriate icon
+function __lucid_get_os_icon
+    # Return cached result if available
+    if test -n "$__lucid_os_icon"
+        echo $__lucid_os_icon
+        return
+    end
+
+    # Detect OS using uname
+    set -l os (uname -s 2>/dev/null)
+    if test $status -ne 0
+        set -g __lucid_os_icon "🌐"  # fallback
+        echo $__lucid_os_icon
+        return
+    end
+
+    # Map OS to icon (you can customize these mappings)
+    switch $os
+        case "Alpaquita"
+            set -g __lucid_os_icon ""
+        case "Alpine"
+            set -g __lucid_os_icon ""
+        case "AlmaLinux"
+            set -g __lucid_os_icon ""
+        case "Amazon"
+            set -g __lucid_os_icon ""
+        case "Android"
+            set -g __lucid_os_icon ""
+        case "AOSC"
+            set -g __lucid_os_icon ""
+        case "Arch"
+            set -g __lucid_os_icon ""
+        case "Artix"
+            set -g __lucid_os_icon ""
+        case "CachyOS"
+            set -g __lucid_os_icon ""
+        case "CentOS"
+            set -g __lucid_os_icon ""
+        case "Debian"
+            set -g __lucid_os_icon ""
+        case "DragonFly"
+            set -g __lucid_os_icon ""
+        case "Emscripten"
+            set -g __lucid_os_icon ""
+        case "EndeavourOS"
+            set -g __lucid_os_icon ""
+        case "Fedora"
+            set -g __lucid_os_icon ""
+        case "FreeBSD"
+            set -g __lucid_os_icon ""
+        case "Garuda"
+            set -g __lucid_os_icon "󰛓"
+        case "Gentoo"
+            set -g __lucid_os_icon ""
+        case "HardenedBSD"
+            set -g __lucid_os_icon "󰞌"
+        case "Illumos"
+            set -g __lucid_os_icon "󰈸"
+        case "Kali"
+            set -g __lucid_os_icon ""
+        case "Linux"
+            set -g __lucid_os_icon ""
+        case "Mabox"
+            set -g __lucid_os_icon ""
+        case "Darwin" "Macos"
+            set -g __lucid_os_icon ""
+        case "Manjaro"
+            set -g __lucid_os_icon ""
+        case "Mariner"
+            set -g __lucid_os_icon ""
+        case "MidnightBSD"
+            set -g __lucid_os_icon ""
+        case "Mint"
+            set -g __lucid_os_icon ""
+        case "NetBSD"
+            set -g __lucid_os_icon ""
+        case "NixOS"
+            set -g __lucid_os_icon ""
+        case "Nobara"
+            set -g __lucid_os_icon ""
+        case "OpenBSD"
+            set -g __lucid_os_icon "󰈺"
+        case "openSUSE"
+            set -g __lucid_os_icon ""
+        case "OracleLinux"
+            set -g __lucid_os_icon "󰌷"
+        case "Pop"
+            set -g __lucid_os_icon ""
+        case "Raspbian"
+            set -g __lucid_os_icon ""
+        case "Redhat"
+            set -g __lucid_os_icon ""
+        case "RedHatEnterprise"
+            set -g __lucid_os_icon ""
+        case "RockyLinux"
+            set -g __lucid_os_icon ""
+        case "Redox"
+            set -g __lucid_os_icon "󰀘"
+        case "Solus"
+            set -g __lucid_os_icon "󰠳"
+        case "SUSE"
+            set -g __lucid_os_icon ""
+        case "Ubuntu"
+            set -g __lucid_os_icon ""
+        case "Void"
+            set -g __lucid_os_icon ""
+        case "CYGWIN*" "MSYS*" "MINGW*" "Windows"
+            set -g __lucid_os_icon "󰍲"
+        case "Unknown" "*"
+            set -g __lucid_os_icon ""
+    end
+
+    echo $__lucid_os_icon
 end
 
 # Abort an in-flight dirty check, if any.
@@ -267,7 +386,8 @@ function fish_prompt
 
     # Display SSH info on the right side of the first line
     if set -q SSH_CONNECTION
-        set -l ssh_info "$lucid_ssh_icon $USER@"(hostname -s)
+        set -l os_icon (__lucid_get_os_icon)
+        set -l ssh_info "$os_icon $USER@"(hostname -s)
         # Calculate length of visible characters (strip ANSI codes for length calculation)
         set -l ssh_info_length (string length -- $ssh_info)
         # Move cursor to the right position and print
