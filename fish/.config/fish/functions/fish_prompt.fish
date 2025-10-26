@@ -1,6 +1,6 @@
 # Default appearance options. Override in config.fish if you want.
 if ! set -q lucid_dirty_indicator
-    set -g lucid_dirty_indicator "•"
+    set -g lucid_dirty_indicator "●"
 end
 
 if ! set -q lucid_prompt_symbol
@@ -30,6 +30,10 @@ end
 
 if ! set -q lucid_git_color
     set -g lucid_git_color magenta
+end
+
+if ! set -q lucid_git_icon
+    set -g lucid_git_icon ""
 end
 
 # State used for memoization and async calls.
@@ -166,7 +170,7 @@ function __lucid_git_status
 
     # Render git status. When in-progress, use previous state to reduce flicker.
     set_color $lucid_git_color
-    echo -n $__lucid_git_static ''
+    echo -n $lucid_git_icon $__lucid_git_static ''
 
     if ! test -z $__lucid_dirty
         echo -n $__lucid_dirty
