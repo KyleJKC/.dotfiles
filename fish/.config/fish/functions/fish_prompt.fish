@@ -1,14 +1,14 @@
 # Default appearance options. Override in config.fish if you want.
 if ! set -q lucid_dirty_indicator
-    set -g lucid_dirty_indicator "●"
+    set -g lucid_dirty_indicator "*"
 end
 
 if ! set -q lucid_prompt_symbol
-    set -g lucid_prompt_symbol "❯"
+    set -g lucid_prompt_symbol "λ"
 end
 
 if ! set -q lucid_prompt_symbol_error
-    set -g lucid_prompt_symbol_error "❯"
+    set -g lucid_prompt_symbol_error "λ"
 end
 
 if ! set -q lucid_prompt_symbol_color
@@ -216,7 +216,7 @@ function fish_prompt
         echo ''
     end
 
-    set_color $lucid_cwd_color
+    set_color $lucid_cwd_color --bold
     echo -sn $cwd
     set_color normal
 
@@ -239,7 +239,7 @@ function fish_prompt
         set prompt_symbol_color "$lucid_prompt_symbol_error_color"
     end
 
-    set_color "$prompt_symbol_color"
+    set_color "$prompt_symbol_color" --bold
     echo -n "$prompt_symbol "
     set_color normal
 end
