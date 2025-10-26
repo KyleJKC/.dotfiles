@@ -2,8 +2,7 @@ if status is-interactive
     if not functions -q fisher
         echo "⏳ Installing fisher..."
         curl --silent --location https://git.io/fisher | source
-        and fisher install jorgebucaran/fisher
-        and fisher install jorgebucaran/autopair.fish
+        and fisher update
     end
 end
 
