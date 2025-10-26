@@ -25,6 +25,7 @@ cyan   = "#ea9a97"  # rose
 
 [character]
 # default symbols & format; just reassert default colors that now point to the palette
-success_symbol = "[λ](bold blue)"
-error_symbol   = "[λ](bold red)"
-vimcmd_symbol  = "[λ](bold blue)"
+success_symbol = "[❯](bold blue)"
+error_symbol   = "[❯](bold red)"
+vimcmd_symbol  = "[❮](bold blue)"
+# λ

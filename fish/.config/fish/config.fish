@@ -9,6 +9,9 @@ end
 
 set -gx fish_greeting ""
 
+# Disable virtualenv/conda prompt modification
+set -gx CONDA_CHANGEPS1 no
+
 alias c='clear'
 alias ls='eza --icons --group-directories-first' # Make sure you installed eza
 alias l='ls -a'
@@ -28,23 +31,38 @@ alias lg='lazygit'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
+# OPTIMIZED: Lazy-load conda - only initialize when conda is actually called
 if test -f /opt/miniconda3/bin/conda
-    eval /opt/miniconda3/bin/conda "shell.fish" "hook" $argv | source
+    # Just add to PATH, don't initialize until needed
+    set -gx PATH /opt/miniconda3/bin $PATH
+    
+    # Create a wrapper function that initializes conda on first use
+    function conda
+        functions --erase conda  # Remove this wrapper
+        eval /opt/miniconda3/bin/conda "shell.fish" "hook" $argv | source
+        conda $argv  # Call the real conda with original arguments
+    end
 else
     if test -f "/opt/miniconda3/etc/fish/conf.d/conda.fish"
         . "/opt/miniconda3/etc/fish/conf.d/conda.fish"
     else
-        set -x PATH "/opt/miniconda3/bin" $PATH
+        set -gx PATH "/opt/miniconda3/bin" $PATH
     end
 end
 # <<< conda initialize <<<
 
+# Homebrew
 if test -x /opt/homebrew/bin/brew
-    eval (/opt/homebrew/bin/brew shellenv fish)
+    set -gx HOMEBREW_PREFIX "/opt/homebrew"
+    set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar"
+    set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
+    set -gx PATH "/opt/homebrew/bin" "/opt/homebrew/sbin" $PATH
+    set -gx MANPATH "/opt/homebrew/share/man" $MANPATH
+    set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH
 end
 
 set -gx BUN_INSTALL $HOME/.bun
 fish_add_path -g $BUN_INSTALL/bin
 
-starship init fish | source
+# starship init fish | source
 zoxide init fish | source
