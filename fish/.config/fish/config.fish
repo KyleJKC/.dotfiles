@@ -54,8 +54,12 @@ if test -x /opt/homebrew/bin/brew
     set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH
 end
 
+# Bun
 set -gx BUN_INSTALL $HOME/.bun
 set -g PATH $BUN_INSTALL/bin $PATH
+
+# EDITOR
+set -gx EDITOR nvim
 
 # starship init fish | source
 
