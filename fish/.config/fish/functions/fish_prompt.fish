@@ -307,7 +307,7 @@ end
 # ------- Mode indicator (unchanged) -------
 # Shows the current vi mode with color-coded indicators
 function __luminous_vi_indicator
-    if [ $fish_key_bindings = "fish_vi_key_bindings" ]
+    if test "$fish_key_bindings" = "fish_vi_key_bindings"
         switch $fish_bind_mode
             case insert;  set_color green;  echo -n "[I] "  # Insert mode
             case default; set_color red;    echo -n "[N] "  # Normal mode
@@ -345,8 +345,12 @@ end
 # Prints left and right content with proper spacing and responsive wrapping.
 # Arguments: left_plain, left_colored, right_plain, right_colored
 function __luminous_print_left_right --argument-names left_plain left_colored right_plain right_colored
-    # Get terminal width with fallback to 80 columns
-    set -l cols (tput cols 2>/dev/null); or set -q COLUMNS; and set cols $COLUMNS; or set cols 80
+    # Get terminal width. Prefer fish's built-in $COLUMNS (no subprocess, kept
+    # current via SIGWINCH); fall back to `tput cols`, then 80, only if unset.
+    set -l cols $COLUMNS
+    if test -z "$cols"
+        set cols (tput cols 2>/dev/null); or set cols 80
+    end
 
     # Calculate visible lengths (ignoring color escape sequences)
     set -l l (string length --visible -- $left_plain)
