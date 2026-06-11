@@ -28,21 +28,6 @@ alias rm='rm -i'
 alias reload='source ~/.config/fish/config.fish'
 alias lg='lazygit'
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# OPTIMIZED: Lazy-load conda - only initialize when conda is actually called
-if test -f /opt/miniconda3/bin/conda
-    # Just add to PATH, don't initialize until needed
-    set -gx PATH /opt/miniconda3/bin $PATH
-    
-    # Create a wrapper function that initializes conda on first use
-    function conda
-        functions --erase conda  # Remove this wrapper
-        eval /opt/miniconda3/bin/conda "shell.fish" "hook" $argv | source
-        conda $argv  # Call the real conda with original arguments
-    end
-end
-# <<< conda initialize <<<
 
 # Homebrew
 if test -x /opt/homebrew/bin/brew
@@ -57,6 +42,9 @@ end
 # Bun
 set -gx BUN_INSTALL $HOME/.bun
 set -g PATH $BUN_INSTALL/bin $PATH
+
+# Claude Code
+set -gx PATH $HOME/.local/bin $PATH
 
 # EDITOR
 set -gx EDITOR nvim
@@ -81,3 +69,17 @@ if type -q zoxide
         zi $argv
     end
 end
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if test -f /opt/miniconda3/bin/conda
+    eval /opt/miniconda3/bin/conda "shell.fish" "hook" $argv | source
+else
+    if test -f "/opt/miniconda3/etc/fish/conf.d/conda.fish"
+        . "/opt/miniconda3/etc/fish/conf.d/conda.fish"
+    else
+        set -x PATH "/opt/miniconda3/bin" $PATH
+    end
+end
+# <<< conda initialize <<<
+

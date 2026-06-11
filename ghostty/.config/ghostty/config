@@ -4,5 +4,5 @@ font-size = "20"
 window-height = "30"
 window-width = "80"
 cursor-style = bar
-shell-integration-features = ssh-env,ssh-terminfo, cursor
+shell-integration-features = ssh-env,ssh-terminfo,cursor,sudo
 keybind = shift+enter=text:\x1b\r
