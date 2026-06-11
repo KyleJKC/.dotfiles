@@ -28,6 +28,10 @@ alias rm='rm -i'
 alias reload='source ~/.config/fish/config.fish'
 alias lg='lazygit'
 
+# Key Bindings
+bind \co toggle_bindings
+bind -M insert \co toggle_bindings
+
 
 # Homebrew
 if test -x /opt/homebrew/bin/brew
@@ -49,7 +53,22 @@ set -gx PATH $HOME/.local/bin $PATH
 # EDITOR
 set -gx EDITOR nvim
 
-# starship init fish | source
+# Bat
+set -x BAT_THEME "rose-pine-moon"
+
+# FZF
+set -x FZF_DEFAULT_OPTS "\
+--cycle --layout=reverse --border --height=90% --preview-window=wrap --marker='*' \
+--color=fg:#908caa,bg:#232136,hl:#ea9a97 \
+--color=fg+:#e0def4,bg+:#393552,hl+:#ea9a97 \
+--color=border:#44415a,header:#3e8fb0,gutter:#232136 \
+--color=spinner:#f6c177,info:#9ccfd8 \
+--color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+
+set fzf_preview_dir_cmd eza --icons --group-directories-first --color=always --all
+set fzf_preview_file_cmd bat --color=always --style=numbers
+
+fzf_configure_bindings --directory=\cf
 
 # OPTIMIZED: Lazy-load zoxide - initialize on first use
 if type -q zoxide
