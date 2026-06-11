@@ -151,7 +151,7 @@ function __luminous_get_os_icon
         case '*'
             # Fallback to uname-based detection for unknown distributions
             switch $uname
-                case CYGWIN* MSYS* MINGW* Windows; set -g __luminous_os_icon "󰍲"  # Windows icon
+                case 'CYGWIN*' 'MSYS*' 'MINGW*' Windows; set -g __luminous_os_icon "󰍲"  # Windows icon
                 case Darwin; set -g __luminous_os_icon ""  # macOS icon (fallback)
                 case Linux;  set -g __luminous_os_icon ""  # Generic Linux icon
                 case '*';    set -g __luminous_os_icon ""  # Unknown OS icon
@@ -423,7 +423,7 @@ function fish_prompt
     set -l right_colored ""
     if __luminous_is_ssh
         set -l os_icon (__luminous_get_os_icon)
-        set right_plain "$os_icon $USER@"(hostname -s)
+        set right_plain "$os_icon $USER@"(hostname | string split '.' | head -1)
         set right_colored (set_color $luminous_ssh_color; echo -n $right_plain; set_color normal)
     end
 
