@@ -1,20 +1,17 @@
 # Universal/runtime state — machine-specific, regenerated per host
 fish/.config/fish/fish_variables
 
-# Plugin artifacts (reproducible via `fisher update` from fish_plugins):
-# ignore these dirs wholesale, then whitelist hand-written files below.
-fish/.config/fish/conf.d/*
+# Generated completions (bun, fisher, fzf) — regenerable, not hand-written
 fish/.config/fish/completions/*
-fish/.config/fish/functions/*
 
-# --- Hand-written config to keep tracked ---
-!fish/.config/fish/conf.d/aliases.fish
-!fish/.config/fish/conf.d/paths.fish
-!fish/.config/fish/conf.d/env.fish
-!fish/.config/fish/conf.d/zoxide.fish
-!fish/.config/fish/conf.d/conda.fish
-!fish/.config/fish/conf.d/rustup.fish
-!fish/.config/fish/conf.d/rose-pine-moon.fish
-!fish/.config/fish/functions/fish_prompt.fish
-!fish/.config/fish/functions/y.fish
-!fish/.config/fish/functions/toggle_bindings.fish
+# Fisher-installed plugin functions. Internal helpers are `_`-prefixed; the two
+# named files are the only non-prefixed entry points (jorgebucaran/fisher,
+# patrickf1/fzf.fish). Everything else in functions/ is hand-written & tracked.
+fish/.config/fish/functions/_*.fish
+fish/.config/fish/functions/fisher.fish
+fish/.config/fish/functions/fzf_configure_bindings.fish
+
+# Plugin-dropped conf.d snippets (autopair.fish, fzf.fish).
+# Everything else in conf.d/ is hand-written & tracked.
+fish/.config/fish/conf.d/autopair.fish
+fish/.config/fish/conf.d/fzf.fish
