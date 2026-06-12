@@ -8,6 +8,12 @@ set -gx CONDA_CHANGEPS1 no
 
 set -gx EDITOR nvim
 
+# Timeout for multi-key sequence bindings — e.g. the Esc-Esc `sudo` binding in
+# config.fish (`escape,escape`). If unset, fish waits indefinitely for the second
+# key, so a lone Escape would hang. 200ms is comfortable for the double-tap while
+# keeping lone-Escape latency low.
+set -g fish_sequence_key_delay_ms 200
+
 # Bat
 set -gx BAT_THEME "rose-pine-moon"
 

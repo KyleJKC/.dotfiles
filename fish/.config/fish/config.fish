@@ -30,4 +30,13 @@ if status is-interactive
     # initialized its default key bindings.
     bind \co toggle_bindings
     bind -M insert \co toggle_bindings
+
+    # Esc-Esc → toggle `sudo` at the start of the line (zsh sudo-plugin muscle memory).
+    # fish 4.x: two Escape presses are the `escape,escape` key sequence — NOT
+    # `alt-escape` (legacy `\e\e`, which never fires from a double-tap).
+    # Bound ONLY in `default` mode (= vi normal mode), deliberately NOT in insert
+    # mode: an insert-mode sequence would make every Esc-to-leave-insert wait
+    # fish_sequence_key_delay_ms for a possible second Esc. So: Esc exits insert
+    # instantly, then Esc-Esc in normal mode prepends sudo.
+    bind escape,escape prepend_sudo
 end
